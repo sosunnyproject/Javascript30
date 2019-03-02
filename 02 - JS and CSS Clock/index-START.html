@@ -9,7 +9,7 @@
 
     <div class="clock">
       <div class="clock-face">
-        <div class="hand hour-hand"></div>
+        <div class="hand hour-hand" style="height:10px;background:white"></div>
         <div class="hand min-hand"></div>
         <div class="hand second-hand"></div>
       </div>
@@ -65,6 +65,7 @@
       transform-origin: 100%;
       /* make rotate pivot to right-end side  */
       transform: rotate(90deg);
+      /* starting point: at 12 position */
       transition: all 0.05s;
       transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
     }
@@ -72,6 +73,39 @@
   </style>
 
 <script>
+  const secondHand = document.querySelector('.second-hand');
+  const minHand = document.querySelector('.min-hand');
+  const hourHand = document.querySelector('.hour-hand');
+  // const hands = document.querySelectorAll("div.hand");
+  // how to get style.transition of .hand css class?
+
+
+  function setDate() {
+    const now = new Date();
+    const seconds = now.getSeconds(); // TURN THIS INTO DEGREE;
+    const secondsDegrees = (seconds/60) * 360 + 90; // OFFSET THE STARTING POINT
+    secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+    // console.log(seconds);
+
+    const minutes = now.getMinutes();
+    const minDegrees = ((minutes/60) * 360) + ((seconds/60)*6) + 90;
+    minHand.style.transform = `rotate(${minDegrees}deg)`;
+
+
+    const hours = now.getHours();
+    const hourDegrees = ((hours/12) * 360) + ((minutes/60)*30) + 90;
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+
+  //   if(seconds===59) {
+  //     hands.style.transition = `0s`;
+  //     console.log(hands.style);
+  //   }
+  //   console.log(hands.style);
+  //
+  }
+
+  setInterval(setDate, 1000);
+
 </script>
 </body>
 </html>
